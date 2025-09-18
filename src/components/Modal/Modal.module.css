@@ -1,0 +1,85 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(2, 6, 23, 0.6);
+  z-index: 40;
+}
+
+.dialog {
+  width: 90%;
+  max-width: 640px;
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-md);
+  padding: var(--space-5);
+  font-family: var(--font-family-base);
+  color: var(--color-text);
+  transition: all 0.3s ease-in-out;
+}
+
+.dialog:hover {
+  transform: translateY(-5px);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-3);
+}
+
+.title {
+  font-weight: 700;
+  font-size: var(--font-size-mm);
+  color: var(--color-text);
+}
+
+.desc {
+  margin-top: 16px;
+  font-size: var(--font-size-base);
+  color: var(--color-muted);
+  line-height: 1.6;
+}
+
+.close {
+  background: transparent;
+  border: none;
+  font-size: var(--font-size-lg);
+  cursor: pointer;
+  color: var(--color-muted);
+}
+
+.close:hover {
+  color: var(--color-danger);
+}
+
+.content {
+  margin-top: var(--space-3);
+  font-size: var(--font-size-base);
+  line-height: 1.4;
+  color: var(--color-muted);
+}
+
+.content p {
+  margin: 0;
+  padding: 8px 0;
+}
+
+.dialog,
+.content {
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+/* ✅ Add custom variants */
+.large {
+  max-width: 900px;
+}
+
+.small {
+  width: 90%;
+  max-width: 640px;
+}

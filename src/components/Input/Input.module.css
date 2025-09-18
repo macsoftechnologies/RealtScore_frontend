@@ -1,0 +1,35 @@
+.input {
+  width: 100%;
+  padding: var(--input-padding-y) var(--input-padding-x);
+  border: 1px solid var(--input-border);
+  border-radius: var(--input-radius);
+  background: var(--input-bg);
+  color: var(--input-text);
+  font-size: var(--font-size-base);
+  transition: border 0.2s, box-shadow 0.2s;
+}
+
+.input::placeholder {
+  color: var(--input-placeholder);
+}
+
+.input:hover {
+  border-color: var(--input-border-hover);
+}
+
+.input:focus {
+  border-color: var(--input-border-focus);
+  outline: none;
+  box-shadow: var(--input-shadow-focus);
+}
+
+.input-error {
+  border-color: var(--input-border-error);
+}
+
+.error-text {
+  display: block;
+  margin-top: 4px;
+  font-size: var(--font-size-sm);
+  color: var(--input-text-error);
+}

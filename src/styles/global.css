@@ -1,0 +1,216 @@
+  /* src/styles/design-tokens.css */
+  :root {
+    /* ----------------- Primary & Secondary ----------------- */
+    --color-primary: #2563eb;          /* Blue (buttons, highlights) */
+    --color-primary-600: #1e40af;      /* Darker blue (hover) */
+    --color-secondary: #ffffff;        /* Green (secondary button / badges) */
+    --color-serchbtn:#1e293b;
+
+    /* ----------------- Utility Colors ----------------- */
+    --color-success: #22c55e;          /* Success / score */
+    --color-danger: #ef4444;           /* Error / warnings */
+    --color-muted: #64748b;            /* Grey subtext */
+    --color-text: #0f172a;             /* Default dark text */
+    --color-bg: #f8fafc;               /* Page background */
+    --color-surface: #ffffff;          /* Card, modal surfaces */
+
+    /* ----------------- Border & Outline ----------------- */
+    --color-border: #e2e8f0;           /* Light border (cards / inputs) */
+    --color-outline: #cbd5e1;          /* Focus outlines (inputs / buttons) */
+
+    /* ----------------- Badges ----------------- */
+    --color-residential-bg: #1e293b;   /* Dark blue (Residential badge) */
+    --color-guest-bg: #334155;         /* Guest House badge */
+    --color-badge-bg: #f1f5f9;         /* Light gray badge background */
+    --color-badge-text: #0f172a;       /* Badge label text */
+
+    /* ----------------- Buttons ----------------- */
+    --color-button-text: #ffffff;
+    --color-button-bg: var(--color-primary);
+    --color-button-bg-hover: var(--color-primary-600);
+    --color-button-border: var(--color-outline);
+    --color-button-disabled-bg: #cbd5e1;
+    --color-button-disabled-text: #94a3b8;
+    --color-button-background:#1e293b;
+
+    /* ----------------- Inputs ----------------- */
+    --input-bg: #ffffff;
+    --input-border: #cbd5e1;
+    --input-border-hover: #94a3b8;
+    --input-border-focus: var(--color-primary);
+    --input-text: var(--color-text);
+    --input-placeholder: #94a3b8;
+    --input-radius: var(--radius-md);
+    --input-padding-y: 10px;
+    --input-padding-x: 14px;
+    --input-shadow-focus: 0 0 0 2px rgba(37, 99, 235, 0.3);
+
+    /* Input error states */
+    --input-border-error: var(--color-danger);
+    --input-text-error: var(--color-danger);
+
+    /* ----------------- Radii & Shadows ----------------- */
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 16px;
+    --shadow-sm: 0 1px 2px rgba(2, 6, 23, 0.06);
+    --shadow-md: 0 6px 20px rgba(2, 6, 23, 0.08);
+
+    /* ----------------- Spacing Scale ----------------- */
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-5: 24px;
+    --space-6: 32px;
+
+    /* ----------------- Typography ----------------- */
+    --font-family-base: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    --font-size-xs: 12px;
+    --font-size-sm: 14px;
+    --font-size-base: 16px;
+    --font-size-lg: 18px;
+    --font-size-mm: 25px;
+    --font-size-xl: 36px;
+  }
+
+  /* ----------------- Dark Theme ----------------- */
+  html[data-theme="dark"] {
+    --color-bg: #0b1220;
+    --color-surface: #07101a;
+    --color-text: #e6eef6;
+    --color-muted: #94a3b8;
+    --color-border: #1e293b;
+    --color-outline: #334155;
+
+    --color-button-bg: #1e293b;
+    --color-button-bg-hover: #334155;
+    --color-button-disabled-bg: #475569;
+    --color-button-disabled-text: #94a3b8;
+
+    /* Inputs dark */
+    --input-bg: #0f172a;
+    --input-border: #334155;
+    --input-border-hover: #475569;
+    --input-border-focus: #3b82f6;
+    --input-text: #e2e8f0;
+    --input-placeholder: #64748b;
+
+    --shadow-sm: 0 1px 2px rgba(2, 6, 23, 0.5);
+    --shadow-md: 0 6px 20px rgba(2, 6, 23, 0.4);
+    
+  }
+
+.explore-container {
+  max-width: 90%;
+  margin: auto;
+  padding: var(--space-6);
+}
+
+.title {
+  font-size: var(--font-size-xl);
+  font-weight: bold;
+  text-align: center;
+  line-height: 2.5;
+}
+
+.subtitle {
+  text-align: center;
+  font-size: 24px;
+  color: var(--color-muted);
+  margin-bottom: var(--space-6);
+}
+
+.search-bar {
+  display: flex;
+  gap: var(--space-2);
+  justify-content: center;
+  margin-bottom: var(--space-6);
+}
+
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-4);
+}
+
+.actions {
+  display: flex;
+  gap: var(--space-4);
+}
+
+.report-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+}
+
+.report-item {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--space-2);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.value.good {
+  color: var(--color-success);
+}
+
+.value.bad {
+  color: var(--color-danger);
+}
+
+
+/* ReportModal.css */
+
+.report-container {
+  font-family: var(--font-family-base);
+  color: var(--color-text);
+}
+
+.report-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* two columns */
+  gap: var(--space-2) var(--space-4); /* row gap | col gap */
+  margin-top: var(--space-4);
+}
+
+.report-item {
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding-right: var(--space-6);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.report-item .icon {
+  flex-shrink: 0;
+  font-size: 1rem; /* adjust for better alignment */
+  color: var(--color-muted);
+}
+
+.report-item .label {
+  font-weight: 500;
+  flex: 1; /* ensures consistent spacing */
+  color: var(--color-text);
+}
+
+.report-item .value {
+  margin-left: auto;
+  font-weight: 600;
+}
+
+/* Score coloring */
+.value.good {
+  color: var(--color-success);
+}
+
+.value.warn {
+  color: #eab308; /* or use --color-warning if added */
+}
+
+.value.bad {
+  color: var(--color-danger);
+}
