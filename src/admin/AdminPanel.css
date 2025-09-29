@@ -1,0 +1,51 @@
+/* src/admin/AdminPanel.css */
+
+/* Page background */
+.admin-bg {
+  background-color: var(--color-bg);
+  min-height: 100vh;
+}
+
+/* Card container */
+.container {
+  background-color: var(--color-surface);
+}
+
+/* Title styling */
+.admin-title {
+  color: var(--color-text);
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+}
+.bg-color{
+    background-color: #f1f5f9;
+    padding: 10px 0px;
+}
+
+/* Bootstrap pills override with tokens */
+.nav-pills .nav-link {
+  color: var(--color-text);
+  font-weight: 500;
+  margin: 0 4px;
+  background-color: var(--color-badge-bg);
+  font-size: var(--font-size-lg);
+}
+
+.nav-pills .nav-link.active,
+.nav-pills .nav-link:hover {
+  background-color: var(--color-surface);  
+  color: var(--color-text);    
+  border: 1px solid var(--color-border); 
+  box-shadow: var(--shadow-sm);
+  font-size: var(--font-size-lg);
+}
+
+/* Inner content padding */
+.admin-content {
+  padding: var(--space-6) var(--space-7);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}

@@ -1,5 +1,6 @@
+
 .explore-container {
-  max-width: 1000px;
+  max-width: 90%;
   margin: auto;
   padding: var(--space-6);
 }
@@ -8,12 +9,14 @@
   font-size: var(--font-size-xl);
   font-weight: bold;
   text-align: center;
+  line-height: 2.5;
 }
 
 .subtitle {
   text-align: center;
+  font-size: 24px;
   color: var(--color-muted);
-  margin-bottom: var(--space-4);
+  margin-bottom: var(--space-6);
 }
 
 .search-bar {
@@ -23,6 +26,7 @@
   margin-bottom: var(--space-6);
 }
 
+
 .card-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -31,7 +35,7 @@
 
 .actions {
   display: flex;
-  gap: var(--space-2);
+  gap: var(--space-4);
 }
 
 .report-grid {
@@ -49,6 +53,60 @@
 
 .value.good {
   color: var(--color-success);
+}
+
+.value.bad {
+  color: var(--color-danger);
+}
+
+
+/* ReportModal.css */
+
+.report-container {
+  font-family: var(--font-family-base);
+  color: var(--color-text);
+}
+
+.report-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* two columns */
+  gap: var(--space-2) var(--space-4); /* row gap | col gap */
+  margin-top: var(--space-4);
+}
+
+.report-item {
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding-right: var(--space-6);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.report-item .icon {
+  flex-shrink: 0;
+  font-size: 1rem; /* adjust for better alignment */
+  color: var(--color-muted);
+}
+
+.report-item .label {
+  font-weight: 500;
+  flex: 1; /* ensures consistent spacing */
+  color: var(--color-text);
+}
+
+.report-item .value {
+  margin-left: auto;
+  font-weight: 600;
+}
+
+/* Score coloring */
+.value.good {
+  color: var(--color-success);
+}
+
+.value.warn {
+  color: #eab308; /* or use --color-warning if added */
 }
 
 .value.bad {

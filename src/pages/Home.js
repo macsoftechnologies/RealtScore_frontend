@@ -5,7 +5,7 @@ import Card from "../components/Card/Card";
 import Modal from "../components/Modal/Modal";
 import Badge from "../components/Badge/Badge";
 import Modalstyle from "../components/Modal/Modal.module.css";
-
+import "./Home.css";
 
 const properties = [
   {
@@ -32,6 +32,7 @@ const properties = [
     badges: [{ label: "Guest House", type: "guestHouse" }],
     description: "Peaceful hill retreat, perfect for guest house use.",
   },
+  
 ];
 
 // Example param names and max scores (without icons)
@@ -249,6 +250,7 @@ export default function ExploreProperties() {
         }}
         title={`REALTScore Report – Property #${selectedProperty?.id ?? ""}`}
         className={Modalstyle.large} // add large class
+        
       >
         {selectedProperty && reportData ? (
           <div className="report-container">
@@ -280,7 +282,6 @@ export default function ExploreProperties() {
           <div>Loading report...</div>
         )}
       </Modal>
-      
     </div>
   );
 }

@@ -1,3 +1,19 @@
+
+/* Input.module.css */
+.inputWrapper {
+  width: 100%;
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.inputLabel {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--input-text);
+  margin-bottom: 10px;
+}
+
 .input {
   width: 100%;
   padding: var(--input-padding-y) var(--input-padding-x);
@@ -7,6 +23,7 @@
   color: var(--input-text);
   font-size: var(--font-size-base);
   transition: border 0.2s, box-shadow 0.2s;
+  box-sizing: border-box; /* Ensures padding doesn't affect total width */
 }
 
 .input::placeholder {
@@ -27,8 +44,9 @@
   border-color: var(--input-border-error);
 }
 
-.error-text {
+.errorText {
   display: block;
+  font-weight: 700;
   margin-top: 4px;
   font-size: var(--font-size-sm);
   color: var(--input-text-error);

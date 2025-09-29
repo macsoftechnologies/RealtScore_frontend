@@ -1,0 +1,643 @@
+import React, { useState } from "react";
+import Button from "../../components/Button/Button";
+import Modal from "../../components/Modal/Modal";
+import Input from "../../components/Input/Input";
+import "./ManageProperties.css";
+import Modalstyle from "../../components/Modal/Modal.module.css";
+import Swal from "sweetalert2";
+
+
+export default function ManageProperties() {
+  // Sample data with all * Required fields
+  const [properties, setProperties] = useState([
+    {
+      id: 101,
+      location: "Vizag Beach Road",
+      latitude: 17.6868,
+      longitude: 83.2185,
+      score: 88,
+      status: "Approved",
+      proximityToNH: 2.4,
+      nearestCity: 5.5,
+      nearestPublicPlace: 1.8,
+      educationScore: 9,
+      hospitalScore: 8,
+      commercialZoneScore: 6,
+      connectivityScore: 7,
+      infrastructureScore: 4,
+      growthPotentialScore: 3,
+      legalClarityScore: 5,
+      environmentalSafetyScore: 4,
+      internalAmenitiesScore: 12,
+    },
+    {
+      id: 102,
+      location: "Hyderabad Hitech City",
+      latitude: 17.4483,
+      longitude: 78.3915,
+      score: 92,
+      status: "Pending",
+      proximityToNH: 1.5,
+      nearestCity: 3.2,
+      nearestPublicPlace: 0.5,
+      educationScore: 8,
+      hospitalScore: 9,
+      commercialZoneScore: 7,
+      connectivityScore: 8,
+      infrastructureScore: 5,
+      growthPotentialScore: 4,
+      legalClarityScore: 4,
+      environmentalSafetyScore: 3,
+      internalAmenitiesScore: 14,
+    },
+    {
+      id: 103,
+      location: "Bangalore MG Road",
+      latitude: 12.9716,
+      longitude: 77.5946,
+      score: 79,
+      status: "Rejected",
+      proximityToNH: 3.1,
+      nearestCity: 1.2,
+      nearestPublicPlace: 0.8,
+      educationScore: 7,
+      hospitalScore: 7,
+      commercialZoneScore: 8,
+      connectivityScore: 9,
+      infrastructureScore: 4,
+      growthPotentialScore: 2,
+      legalClarityScore: 3,
+      environmentalSafetyScore: 2,
+      internalAmenitiesScore: 10,
+    },
+    {
+      id: 104,
+      location: "Chennai Marina Beach",
+      latitude: 13.0827,
+      longitude: 80.2707,
+      score: 85,
+      status: "Approved",
+      proximityToNH: 5.6,
+      nearestCity: 2.1,
+      nearestPublicPlace: 0.3,
+      educationScore: 6,
+      hospitalScore: 8,
+      commercialZoneScore: 6,
+      connectivityScore: 7,
+      infrastructureScore: 4,
+      growthPotentialScore: 3,
+      legalClarityScore: 5,
+      environmentalSafetyScore: 4,
+      internalAmenitiesScore: 11,
+    },
+    {
+      id: 105,
+      location: "Kolkata Park Street",
+      latitude: 22.5726,
+      longitude: 88.3639,
+      score: 90,
+      status: "Pending",
+      proximityToNH: 4.8,
+      nearestCity: 0.7,
+      nearestPublicPlace: 1.1,
+      educationScore: 9,
+      hospitalScore: 9,
+      commercialZoneScore: 9,
+      connectivityScore: 8,
+      infrastructureScore: 5,
+      growthPotentialScore: 4,
+      legalClarityScore: 5,
+      environmentalSafetyScore: 5,
+      internalAmenitiesScore: 13,
+    },
+    {
+      id: 106,
+      location: "Delhi Connaught Place",
+      latitude: 28.6315,
+      longitude: 77.2167,
+      score: 87,
+      status: "Approved",
+      proximityToNH: 0.9,
+      nearestCity: 0.5,
+      nearestPublicPlace: 0.1,
+      educationScore: 10,
+      hospitalScore: 10,
+      commercialZoneScore: 9,
+      connectivityScore: 10,
+      infrastructureScore: 5,
+      growthPotentialScore: 5,
+      legalClarityScore: 5,
+      environmentalSafetyScore: 5,
+      internalAmenitiesScore: 15,
+    },
+  ]);
+
+  const pageSize = 3;
+  const [currentPage, setCurrentPage] = useState(1);
+  const totalPages = Math.ceil(properties.length / pageSize);
+  const currentProperties = properties.slice(
+    (currentPage - 1) * pageSize,
+    currentPage * pageSize
+  );
+
+  // Modal & Form States
+  const [modalOpen, setModalOpen] = useState(false);
+  const [editingPropertyId, setEditingPropertyId] = useState(null); 
+  const [step, setStep] = useState(1);
+  
+  const [form, setForm] = useState({
+    id: "",
+    location: "",
+    latitude: "",
+    longitude: "",
+    proximityToNH: "",
+    nearestCity: "",
+    nearestPublicPlace: "",
+    educationScore: "",
+    hospitalScore: "",
+    commercialZoneScore: "",
+    connectivityScore: "",
+    infrastructureScore: "",
+    growthPotentialScore: "",
+    legalClarityScore: "",
+    environmentalSafetyScore: "",
+    internalAmenitiesScore: "",
+    status: "",
+  });
+
+  const [errors, setErrors] = useState({});
+
+  // The is open AddModal(Set ID to null for Add mode)
+
+  const openAddModal = () => {
+    setEditingPropertyId(null); 
+    setStep(1);
+    setForm({
+      id: "",
+      location: "",
+      latitude: "",
+      longitude: "",
+      proximityToNH: "",
+      nearestCity: "",
+      nearestPublicPlace: "",
+      educationScore: "",
+      hospitalScore: "",
+      commercialZoneScore: "",
+      connectivityScore: "",
+      infrastructureScore: "",
+      growthPotentialScore: "",
+      legalClarityScore: "",
+      environmentalSafetyScore: "",
+      internalAmenitiesScore: "",
+      status: "",
+    });
+    setErrors({});
+    setModalOpen(true);
+  };
+
+  // The is Edit Modal (Set ID to null for Edit mode)
+
+  const openEditModal = (propertyId) => {
+    const p = properties.find(prop => prop.id === propertyId); // Find the property by its unique ID
+    if (!p) return; // Exit if property not found
+
+    setEditingPropertyId(propertyId); // *** CHANGED: Store the ID for editing ***
+    setStep(1);
+    setForm({
+      id: p.id,
+      location: p.location,
+      latitude: p.latitude,
+      longitude: p.longitude,
+      proximityToNH: p.proximityToNH || "",
+      nearestCity: p.nearestCity || "",
+      nearestPublicPlace: p.nearestPublicPlace || "",
+      educationScore: p.educationScore || "",
+      hospitalScore: p.hospitalScore || "",
+      commercialZoneScore: p.commercialZoneScore || "",
+      connectivityScore: p.connectivityScore || "",
+      infrastructureScore: p.infrastructureScore || "",
+      growthPotentialScore: p.growthPotentialScore || "",
+      legalClarityScore: p.legalClarityScore || "",
+      environmentalSafetyScore: p.environmentalSafetyScore || "",
+      internalAmenitiesScore: p.internalAmenitiesScore || "",
+      status: p.status,
+    });
+    setErrors({});
+    setModalOpen(true);
+  };
+
+  const handleChange = (field, value) => {
+    setForm((prev) => ({ ...prev, [field]: value }));
+  };
+
+  // Validatestion-Points 
+
+  const validateStep = (current) => {
+    const e = {};
+    if (current === 1) {
+      if (!form.id) e.id = "* Required";
+      if (!form.location) e.location = "* Required";
+      if (form.latitude === "" || isNaN(form.latitude) || form.latitude < -90 || form.latitude > 90)
+        e.latitude = "Lat -90 to 90";
+      if (form.longitude === "" || isNaN(form.longitude) || form.longitude < -180 || form.longitude > 180)
+        e.longitude = "Lng -180 to 180";
+    }
+    if (current === 2) {
+      if (form.proximityToNH === "" || isNaN(form.proximityToNH)) e.proximityToNH = "* Required";
+      if (form.nearestCity === "" || isNaN(form.nearestCity)) e.nearestCity = "* Required";
+      if (form.nearestPublicPlace === "" || isNaN(form.nearestPublicPlace)) e.nearestPublicPlace = "* Required";
+      if (form.educationScore === "" || isNaN(form.educationScore) || form.educationScore < 0 || form.educationScore > 10) e.educationScore = "0-10";
+    }
+    if (current === 3) {
+      if (form.hospitalScore === "" || isNaN(form.hospitalScore) || form.hospitalScore < 0 || form.hospitalScore > 10) e.hospitalScore = "0-10";
+      if (form.commercialZoneScore === "" || isNaN(form.commercialZoneScore) || form.commercialZoneScore < 0 || form.commercialZoneScore > 10) e.commercialZoneScore = "0-10";
+      if (form.connectivityScore === "" || isNaN(form.connectivityScore) || form.connectivityScore < 0 || form.connectivityScore > 10) e.connectivityScore = "0-10";
+      if (form.infrastructureScore === "" || isNaN(form.infrastructureScore) || form.infrastructureScore < 0 || form.infrastructureScore > 5) e.infrastructureScore = "0-5";
+      if (form.growthPotentialScore === "" || isNaN(form.growthPotentialScore) || form.growthPotentialScore < 0 || form.growthPotentialScore > 5) e.growthPotentialScore = "0-5";
+      if (form.legalClarityScore === "" || isNaN(form.legalClarityScore) || form.legalClarityScore < 0 || form.legalClarityScore > 5) e.legalClarityScore = "0-5";
+      if (form.environmentalSafetyScore === "" || isNaN(form.environmentalSafetyScore) || form.environmentalSafetyScore < 0 || form.environmentalSafetyScore > 5) e.environmentalSafetyScore = "0-5";
+      if (form.internalAmenitiesScore === "" || isNaN(form.internalAmenitiesScore) || form.internalAmenitiesScore < 0 || form.internalAmenitiesScore > 15) e.internalAmenitiesScore = "0-15";
+      if (!form.status) e.status = "* Required";
+    }
+    setErrors(e);
+    return Object.keys(e).length === 0;
+  };
+
+  // This is using for buttons
+
+  const nextStep = () => {
+    if (validateStep(step)) setStep((s) => Math.min(s + 1, 3));
+  };
+
+  const prevStep = () => setStep((s) => Math.max(s - 1, 1));
+
+  // Data is saveProperty
+
+  const saveProperty = () => {
+    if (!validateStep(3)) return;
+
+    const newProperty = {
+      id: Number(form.id),
+      location: form.location,
+      latitude: Number(form.latitude),
+      longitude: Number(form.longitude),
+      proximityToNH: Number(form.proximityToNH),
+      nearestCity: Number(form.nearestCity),
+      nearestPublicPlace: Number(form.nearestPublicPlace),
+      educationScore: Number(form.educationScore),
+      hospitalScore: Number(form.hospitalScore),
+      commercialZoneScore: Number(form.commercialZoneScore),
+      connectivityScore: Number(form.connectivityScore),
+      infrastructureScore: Number(form.infrastructureScore),
+      growthPotentialScore: Number(form.growthPotentialScore),
+      legalClarityScore: Number(form.legalClarityScore),
+      environmentalSafetyScore: Number(form.environmentalSafetyScore),
+      internalAmenitiesScore: Number(form.internalAmenitiesScore),
+      status: form.status,
+    };
+
+    setProperties((prev) => {
+      if (editingPropertyId !== null) {
+        // Find the actual index of the property in the full array
+        const indexToUpdate = prev.findIndex(p => p.id === editingPropertyId); 
+
+        if (indexToUpdate !== -1) {
+          const copy = [...prev];
+          // Preserve the original score since it's not edited in the form, 
+          // and merge the updated fields.
+          copy[indexToUpdate] = { ...copy[indexToUpdate], ...newProperty };
+          return copy;
+        }
+      } 
+      
+      // For demonstration, we'll assign a default score to new properties.
+      if (editingPropertyId === null) {
+         // This is a new property, give it a placeholder score or implement calculation logic
+         const newPropWithScore = { ...newProperty, score: 0 }; 
+         return [...prev, newPropWithScore];
+      }
+
+      return prev; // Return original state if update failed and it wasn't an add
+    });
+
+    setModalOpen(false);
+    Swal.fire({
+      icon: "success",
+      title:
+        editingPropertyId !== null
+          ? "Property updated successfully!"
+          : "Property added successfully!",
+      showConfirmButton: false,
+      timer: 2000,       // closes automatically after 1.8s
+      timerProgressBar: true, // optional progress bar
+    });
+  };
+
+  // Function to create the dynamic Google Maps embed URL
+  
+  const getMapUrl = () => {
+    if (form.latitude && form.longitude) {
+      // Corrected URL structure for Google Maps embed.
+      return `https://maps.google.com/maps?q=${form.latitude},${form.longitude}&z=15&output=embed`;
+    }
+    return "";
+  };
+
+  // ---------- RENDER ----------
+  return (
+    <div className="container-fulid my-4">
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <h2 className="mp-title">Property List</h2>
+        <Button variant="serchbtn" size="lg" onClick={openAddModal}>
+          Add New Property
+        </Button>
+      </div>
+
+      <div className="table-responsive">
+        <table className="table table-borderless align-middle">
+          <thead className="mp-table-head">
+            <tr>
+              <th>Property ID</th>
+              <th>Location</th>
+              <th>Latitude</th>
+              <th>Longitude</th>
+              <th>Status</th>
+              <th className="text-right">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {currentProperties.map((prop) => {
+              // *** REMOVED: No need to calculate globalIndex here anymore ***
+              return (
+                <tr key={prop.id}>
+                  <td>#{prop.id}</td>
+                  <td>{prop.location}</td>
+                  <td>{prop.latitude}</td>
+                  <td>{prop.longitude}</td>
+                  <td>{prop.status}</td>
+                  <td className="text-right">
+                    <Button
+                      className="btn-add"
+                      variant="serchbtn"
+                      size="sm"
+                      // *** CHANGED: Pass prop.id to openEditModal ***
+                      onClick={() => openEditModal(prop.id)} 
+                    >
+                      Edit
+                    </Button>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Pagination Start */}
+
+      {totalPages > 1 && (
+        <div className="d-flex justify-content-center mt-3">
+          <Button
+            variant="serchbtn"
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            className="pagination-btn"
+            disabled={currentPage === 1}
+          >
+            ← Prev
+          </Button>
+          {Array.from({ length: totalPages }, (_, i) => (
+            <Button
+              key={i + 1}
+              onClick={() => setCurrentPage(i + 1)}
+              className={`pagination-btn ${currentPage === i + 1 ? "active" : ""}`}
+            >
+              {i + 1}
+            </Button>
+          ))}
+          <Button
+            variant="serchbtn"
+            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+            className="pagination-btn"
+            disabled={currentPage === totalPages}
+          >
+            Next →
+          </Button>
+        </div>
+      )}
+
+      {/* Pagination End */}
+
+      {/* Add / Edit Modal with Steps */}
+
+      <Modal
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+        className={`${Modalstyle.xlarge} ${Modalstyle.noScroll} my-custom-shadow`}
+        // *** CHANGED: Use editingPropertyId for title check ***
+        title={editingPropertyId !== null ? "Edit Property" : "Add New Property"} 
+      >
+        <div className="modal-form">
+          {/* STEP 1 */}
+          {step === 1 && (
+            <>
+              <div className="form-row">
+                <Input
+                  label="Property ID"
+                  placeholder="#102"
+                  value={form.id}
+                  onChange={(v) => handleChange("id", v)}
+                  mode="numeric"
+                  error={errors.id}
+                />
+                <Input
+                  label="Location"
+                  placeholder="e.g., Kakinada Port Road"
+                  value={form.location}
+                  onChange={(v) => handleChange("location", v)}
+                  error={errors.location}
+                />
+              </div>
+              <div className="form-row">
+                <Input
+                  label="Latitude"
+                  placeholder="17.6868"
+                  mode="numeric"
+                  value={form.latitude}
+                  onChange={(v) => handleChange("latitude", v)}
+                  error={errors.latitude}
+                />
+                <Input
+                  label="Longitude"
+                  placeholder="83.2185"
+                  mode="numeric"
+                  value={form.longitude}
+                  onChange={(v) => handleChange("longitude", v)}
+                  error={errors.longitude}
+                />
+              </div>
+              <div className="location-preview-box">
+                <span className="location-preview-title">Location Preview</span>
+                <iframe
+                  title="Location Preview"
+                  className="location-preview-iframe"
+                  src={getMapUrl()}
+                  width="100%"
+                  height="300"
+                  style={{ border: 0 }}
+                  allowFullScreen=""
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                ></iframe>
+              </div>
+              <Button variant="serchbtn" size="lg" onClick={nextStep} className="mt-3 w-100">
+                Next
+              </Button>
+            </>
+          )}
+
+          {/* STEP 2 */}
+          {step === 2 && (
+            <>
+              <div className="form-row">
+                <Input
+                  label="Proximity to NH (km)"
+                  placeholder="e.g., 2.4"
+                  value={form.proximityToNH}
+                  onChange={(v) => handleChange("proximityToNH", v)}
+                  error={errors.proximityToNH}
+                />
+                <Input
+                  label="Nearest City (km)"
+                  placeholder="e.g., 5.5"
+                  value={form.nearestCity}
+                  onChange={(v) => handleChange("nearestCity", v)}
+                  error={errors.nearestCity}
+                />
+              </div>
+              <div className="form-row">
+                <Input
+                  label="Nearest Public Place (km)"
+                  placeholder="e.g., 1.8"
+                  value={form.nearestPublicPlace}
+                  onChange={(v) => handleChange("nearestPublicPlace", v)}
+                  error={errors.nearestPublicPlace}
+                />
+                <Input
+                  label="Education Score (0-10)"
+                  placeholder="e.g., 9"
+                  value={form.educationScore}
+                  onChange={(v) => handleChange("educationScore", v)}
+                  error={errors.educationScore}
+                />
+              </div>
+              <div className="d-flex gap-2 mt-3 ">
+                <Button variant="serchbtn" size="lg" onClick={prevStep} className="w-50 for-margin" >
+                  Back
+                </Button>
+                <Button variant="serchbtn" size="lg" onClick={nextStep} className="w-50">
+                  Next
+                </Button>
+              </div>
+            </>
+          )}
+
+          {/* STEP 3 */}
+          {step === 3 && (
+            <>
+              <div className="form-row">
+                <Input
+                  label="Hospital Score (0-10)"
+                  placeholder="e.g., 8"
+                  value={form.hospitalScore}
+                  onChange={(v) => handleChange("hospitalScore", v)}
+                  error={errors.hospitalScore}
+                />
+                <Input
+                  label="Commercial Zone Score (0-10)"
+                  placeholder="e.g., 6"
+                  value={form.commercialZoneScore}
+                  onChange={(v) => handleChange("commercialZoneScore", v)}
+                  error={errors.commercialZoneScore}
+                />
+              </div>
+              <div className="form-row">
+                <Input
+                  label="Connectivity Score (0-10)"
+                  placeholder="e.g., 7"
+                  value={form.connectivityScore}
+                  onChange={(v) => handleChange("connectivityScore", v)}
+                  error={errors.connectivityScore}
+                />
+                <Input
+                  label="Infrastructure Score (0-5)"
+                  placeholder="e.g., 4"
+                  value={form.infrastructureScore}
+                  onChange={(v) => handleChange("infrastructureScore", v)}
+                  error={errors.infrastructureScore}
+                />
+              </div>
+              <div className="form-row">
+                <Input
+                  label="Growth Potential Score (0-5)"
+                  placeholder="e.g., 3"
+                  value={form.growthPotentialScore}
+                  onChange={(v) => handleChange("growthPotentialScore", v)}
+                  error={errors.growthPotentialScore}
+                />
+                <Input
+                  label="Legal Clarity Score (0-5)"
+                  placeholder="e.g., 5"
+                  value={form.legalClarityScore}
+                  onChange={(v) => handleChange("legalClarityScore", v)}
+                  error={errors.legalClarityScore}
+                />
+              </div>
+              <div className="form-row">
+                <Input
+                  label="Environmental Safety Score (0-5)"
+                  placeholder="e.g., 4"
+                  value={form.environmentalSafetyScore}
+                  onChange={(v) => handleChange("environmentalSafetyScore", v)}
+                  error={errors.environmentalSafetyScore}
+                />
+                <Input
+                  label="Internal Amenities Score (0-15)"
+                  placeholder="e.g., 12"
+                  value={form.internalAmenitiesScore}
+                  onChange={(v) => handleChange("internalAmenitiesScore", v)}
+                  error={errors.internalAmenitiesScore}
+                />
+              </div>
+              <div className="form-row">
+                <Input
+                  label="Status"
+                  placeholder="e.g., Pending"
+                  value={form.status}
+                  onChange={(v) => handleChange("status", v)}
+                  error={errors.status}
+                />
+              </div>
+              <div className="d-flex gap-2 mt-3  ">
+                <Button variant="serchbtn" size="lg" onClick={prevStep} className="w-50 for-margin">
+                  Back
+                </Button>
+                <Button
+                  variant="serchbtn"
+                  size="lg"
+                  onClick={saveProperty}
+                  className="w-50"
+                >
+                  {/* *** CHANGED: Use editingPropertyId for button text *** */}
+                  {editingPropertyId !== null ? "Update Property" : "Add Property"}
+                </Button>
+              </div>
+            </>
+          )}
+        </div>
+      </Modal>
+
+      {/* Add / Edit Modal with Steps */}
+
+    </div>
+  );
+}

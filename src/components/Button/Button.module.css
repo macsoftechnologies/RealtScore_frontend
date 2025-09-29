@@ -30,7 +30,6 @@
   background: var(--color-primary-600);
   transform: translateY(-1px);
 }
-
 .secondary {
   background: var(--color-secondary);
   color: #000;
